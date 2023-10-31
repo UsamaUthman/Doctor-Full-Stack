@@ -8,17 +8,17 @@
 
 <!-- Project Features -->
 ## Key Features
-- 🌐 **MERN Stack**: Built with MongoDB, Express.js, React, and Node.js.
-- 🔒 **Enhanced Security**: Utilizes JWT authentication, authorization, and refresh tokens for data protection.
-- 🎨 **Modern Interface**: Crafted with React, Tailwind CSS, and packages for a visually appealing and user-friendly design.
-- 🔍 **Doctor Search**: Enables users to search for and select doctors based on specific criteria.
-- ⭐ **User Reviews**: Incorporates user-generated reviews and ratings for doctors.
-- 📋 **Profiles**: Users can manage their information and access comprehensive doctor profiles.
-- 🗓️ **Appointment Management**: Provides a robust appointment management system for scheduling, canceling, and reviewing appointments.
-- 📊 **Admin Dashboard**: Empowers administrators with comprehensive control over users, doctors, and appointments.
-- 💳 **Secure Payments**: Integrates Stripe for secure payment processing during appointment booking.
-- 📧 **Effective Communication**: Facilitates communication through Nodemailer for user-doctor interactions.
-- 🔑 **Password Reset**: Implements OTP functionality for secure password reset.
+- 🌐 **MERN Stack**: Built with MongoDB, Express.js, React, and Node.js. ✅
+- 🔒 **Enhanced Security**: Utilizes JWT authentication, authorization, and refresh tokens for data protection. ✅
+- 🎨 **Modern Interface**: Crafted with React, Tailwind CSS, and packages for a visually appealing and user-friendly design. ✅
+- 🔍 **Doctor Search**: Enables users to search for and select doctors based on specific criteria. ✅
+- ⭐ **User Reviews**: Incorporates user-generated reviews and ratings for doctors. ✅
+- 📋 **Profiles**: Users can manage their information and access comprehensive doctor profiles. ✅
+- 🗓️ **Appointment Management**: Provides a robust appointment management system for scheduling, canceling, and reviewing appointments. ✅
+- 📧 **Effective Communication**: Facilitates communication through Nodemailer for user-doctor interactions. ✅
+- 💳 **Secure Payments**: 🚧: Integrating Stripe for secure payment processing during appointment booking. (Work in Progress) 
+- 📊 **Admin Dashboard**: 🚧: Empowering administrators with comprehensive control over users, doctors, and appointments. (Work in Progress)
+- 🔑 **Password Reset**: 🚧: Implementing OTP functionality for secure password reset. (Work in Progress)
 
 <!-- Installation Instructions -->
 ## Installation
