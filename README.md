@@ -2,9 +2,18 @@
 <h1 align="center">Doctor-Appointments System</h1>
 
 <!-- Project Description -->
-<p align="center">
+<p align="center" style={font-size: 48px}>
   A comprehensive MERN stack application for doctor appointments and healthcare management.
 </p>
+
+<div align="center" style="display: flex; justify-content: center;">
+  <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 48px; font-weight: bold; color: #61DAFB; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); margin: 10px;">React</h1>
+  <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 48px; font-weight: bold; color: #6CC24A; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); margin: 10px;">Node.js</h1>
+  <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 48px; font-weight: bold; color: #000000; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); margin: 10px;">Express</h1>
+  <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 48px; font-weight: bold; color: #4DB33D; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); margin: 10px;">MongoDB</h1>
+</div>
+
+
 
 <!-- Project Features -->
 ## Key Features
