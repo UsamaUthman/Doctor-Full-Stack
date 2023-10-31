@@ -2,7 +2,7 @@
 <h1 align="center">Doctor-Appointments System</h1>
 
 <!-- Project Description -->
-<p align="center" style={font-size: 48px}>
+<p align="center">
   A comprehensive MERN stack application for doctor appointments and healthcare management.
 </p>
 
