@@ -44,15 +44,11 @@
 
 If you have any questions or need further assistance, please feel free to reach out to us. We're here to help!
 
-**Your Name**  
-- Email: [your.email@example.com](mailto:your.email@example.com)
-- GitHub: [github.com/yourusername](https://github.com/yourusername)
-- LinkedIn: [linkedin.com/in/yourname](https://www.linkedin.com/in/yourname)
+**Usama Uthman**  
+- Email: [osama.mhaleam@gmail.com](mailto:osama.mhaleam@gmail.com)
+- GitHub: [https://github.com/UsamaUthman](https://github.com/UsamaUthman)
+- LinkedIn: [https://www.linkedin.com/in/usama-uthamn-393739271/](https://www.linkedin.com/in/usama-uthamn-393739271/)
 
-**Support Team** (for larger projects or teams)  
-- General Inquiries: [support@example.com](mailto:support@example.com)
-- GitHub: [github.com/project-team](https://github.com/project-team)
-- Website: [project-website.com](https://www.project-website.com)
 
 Feel free to contact us with any feedback, questions, or collaboration opportunities. We appreciate your interest in our project!
 
