@@ -22,7 +22,6 @@ function Login() {
     e.preventDefault();
     try {
       const response = await login(inputs);
-
       if (response.status === 200) {
         toast.success("Logged in successfully");
         setInputs({
@@ -30,6 +29,8 @@ function Login() {
           password: "",
         });
         navigate("/");
+      }else if(response.status === 401){
+        toast.error("Please verify your email");
       }
     } catch (error) {
       console.error(error);

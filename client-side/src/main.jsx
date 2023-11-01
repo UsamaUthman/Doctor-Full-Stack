@@ -9,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
       <ToastContainer theme={"dark"}
@@ -24,5 +23,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <App />
       </AuthContextProvider>
     </BrowserRouter>
-  </React.StrictMode>,
 )

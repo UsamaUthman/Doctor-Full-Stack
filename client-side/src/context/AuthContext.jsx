@@ -5,13 +5,18 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [email, setEmail] = useState(localStorage.getItem("email-otp") || null);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
         if (
           window.location.pathname === "/login" ||
-          window.location.pathname === "/register"
+          window.location.pathname === "/register" ||
+          window.location.pathname === "/forget-password" ||
+          window.location.pathname === "/otp-verify" ||
+          window.location.pathname === "/reset-password" ||
+          window.location.pathname === "/verified-email/:token/:otp/"
         )
           return;
         const response = await axios.get(`/api/auth/currentUser`, {
@@ -46,7 +51,6 @@ export const AuthContextProvider = ({ children }) => {
       );
 
       if (response.status === 201) {
-        console.log(response);
         return response;
       }
     } catch (error) {
@@ -60,13 +64,14 @@ export const AuthContextProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        validateStatus: false,
       });
 
       if (response.status === 200) {
         const data = response.data;
         setCurrentUser(data);
-        return response;
       }
+      return response;
     } catch (error) {
       console.error(error);
     }
@@ -102,7 +107,7 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ currentUser, login, logout, register, updateProfile }}
+      value={{ currentUser, login, logout, register, updateProfile  , email , setEmail}}
     >
       {children}
     </AuthContext.Provider>

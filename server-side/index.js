@@ -7,6 +7,7 @@ import authRoutes from './routes/authRouter.js';
 import userRoute from './routes/userRoute.js';
 import doctorRoute from './routes/doctorRoute.js';
 import reviewRoute from './routes/reviewRoute.js';
+import forgotRoute from './routes/forgotRoute.js';
 import emailRoute from './routes/contactRoute.js';
 import {v2 as cloudinary} from 'cloudinary';
 
@@ -45,6 +46,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/doctors', doctorRoute);
 app.use('/api/v1/reviews', reviewRoute);
+app.use('/api/v1/forgot', forgotRoute);
 app.use('/api/v1/contact', emailRoute);
 
 
