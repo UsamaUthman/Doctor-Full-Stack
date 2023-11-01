@@ -68,6 +68,7 @@ The implementation of One-Time Password (OTP) functionality enhances security wh
 - 🗓️ **Appointment Management**: Provides a robust appointment management system for scheduling, canceling, and reviewing appointments. ✅
 - 📧 **Effective Communication**: Facilitates communication through Nodemailer for user-doctor interactions. ✅
 - 🔑 **Password Reset**: : Implementing OTP functionality for secure password reset. ✅
+- 📧 **Email Verification**: Adding email verification for improved security and authentication. ✅
 - 💳 **Secure Payments**: 🚧: Integrating Stripe for secure payment processing during appointment booking. (Work in Progress) 
 - 📊 **Admin Dashboard**: 🚧: Empowering administrators with comprehensive control over users, doctors, and appointments. (Work in Progress)
 
@@ -79,7 +80,15 @@ The implementation of One-Time Password (OTP) functionality enhances security wh
    git clone https://github.com/yourusername/Doctor-Appointments.git
    cd Doctor-Appointments
    npm install
-
+2. Start server-side
+    ```bash
+    cd server-side
+    npm run server
+3. Start client-side
+   ```bash
+   cd client-side
+   npm run dev
+   
 
 <!-- Contact -->
 ## Contact
