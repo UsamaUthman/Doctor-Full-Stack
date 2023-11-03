@@ -12,6 +12,7 @@ import ProfileDoctor from '../pages/Doctors/ProfileDoctor'
 import OtpVerfiy from '../pages/OtpVerfiy'
 import ResetPassword from '../pages/ResetPassword'
 import VerifiedEmail from '../pages/VerifiedEmail'
+import AdminDashboard from '../pages/AdminDashboard'
 
 import {Routes , Route, Navigate} from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
@@ -24,6 +25,7 @@ function Routers() {
     <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/Home' element={<Home />} />
+      <Route path='/admin' element={ <AdminDashboard />} />
       <Route path='/services' element={<Services />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />

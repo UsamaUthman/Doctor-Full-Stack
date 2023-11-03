@@ -1,24 +1,49 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { toast } from "react-toastify";
-import MoonLoader from "react-spinners/MoonLoader";
 import axios from "axios";
+import ProfileModal from "../components/Doctors/ProfileModal";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import MoonLoader from "react-spinners/MoonLoader";
 
 function Profile() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
-  const [appoinments, setAppoinments] = useState([]);
+  const [errorSection, setErrorSection] = useState(null);
   const { currentUser, updateProfile } = useContext(AuthContext);
+  const [appointments, setappointments] = useState();
   const [editMode, setEditMode] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
   const [inputs, setInputs] = useState({
     name: "",
-    email: "",
-    password: "",
     bloodType: "",
     phone: "",
   });
 
+
+  useEffect(() => {
+    if(currentUser?.role === "doctor"){
+      return;
+    }
+    const fetchAppointments = async () => {
+      try {
+        const res = await axios.get("/api/v1/users/appoinments/my-appoinments" , {
+          validateStatus : false
+        });
+        if(res.status !== 200){
+          setErrorSection(true);
+          return;
+        }
+        setappointments(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchAppointments();
+  }, []);
   // handle image change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -43,6 +68,16 @@ function Profile() {
 
   // handle submit
   const handleSubmit = async () => {
+    // check if there is no change
+    if (
+      inputs.name === "" &&
+      inputs.bloodType === "" &&
+      inputs.phone === "" &&
+      imgUrl === null
+    ) {
+      toast.warning("You didn't change anything");
+      return;
+    }
     setLoading(true);
     const res = await updateProfile(inputs, imgUrl);
     if (res.status === 200) {
@@ -56,23 +91,6 @@ function Profile() {
       setError(true);
     }
   };
-
-  useEffect(() => {
-    const fetchAllUsers = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/users/appoinments/my-appoinments`
-        );
-        console.log(response);
-        setAppoinments(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (currentUser?.role === "patient") {
-      fetchAllUsers();
-    }
-  }, []);
 
   if (error) {
     return (
@@ -119,7 +137,7 @@ function Profile() {
                 <span className="text-xl font-semibold block">
                   Update Profile
                 </span>
-                <a
+                <button
                   href="#"
                   disabled={editMode}
                   className={`-mt-2 text-md font-bold text-white  rounded-full px-5 py-2 ${
@@ -128,7 +146,7 @@ function Profile() {
                   onClick={() => setEditMode(!editMode)}
                 >
                   Edit mode {editMode ? "on" : "off"}
-                </a>
+                </button>
               </div>
 
               <span className="text-gray-600">
@@ -193,36 +211,23 @@ function Profile() {
                   Email
                 </label>
                 <input
-                  disabled={!editMode}
+                  disabled={true}
                   id="email"
                   type="email"
                   name="email"
                   className="border-1  rounded-r px-4 py-2 w-full"
                   placeholder={currentUser?.email}
-                  onChange={handleChange}
                   readOnly={true}
                 />
               </div>
-              <div className="pb-4">
-                <label
-                  htmlFor="password"
-                  className="font-semibold text-gray-700 block pb-1"
-                >
-                  Password
-                </label>
-                <input
-                  disabled={!editMode}
-                  id="password"
-                  name="password"
-                  type="password"
-                  className="border-1  rounded-r px-4 py-2 w-full"
-                  placeholder="**********"
-                  onChange={handleChange}
-                />
-                <span className="text-gray-600 pt-4 block opacity-70">
-                  Personal login information of your account
-                </span>
-              </div>
+              <span className="text-gray-600 pt-4 block opacity-70">
+                Personal login information of your account
+              </span>
+
+              <span className="text-sm text-red-600 pt-4 block opacity-70">
+                Not : you can't change your email , you can only change your
+                password from rest password in case you forget it
+              </span>
             </div>
 
             <div className="w-full h-full md:w-3/5 p-4 md:p-8 bg-white lg:ml-4 shadow-md">
@@ -280,20 +285,25 @@ function Profile() {
         </div>
       </div>
 
-      {/* appoinments container */}
+      {/* appointments container */}
       <div className="container mx-auto px-4 sm:px-8 max-w-5xl">
-        {appoinments.length === 0 && currentUser?.role === "patient" && (
+        {appointments?.length === 0 && currentUser?.role === "patient" && (
           <h1 className="text-2xl text-center font-semibold text-gray-700 mt-8 mb-4">
-            You don't have any appoinments yet
+            You don't have any appointments yet
           </h1>
         )}
-        {appoinments.length > 0 && (
+        {errorSection && (
+          <h1 className="text-2xl text-center font-semibold text-red-500 mt-8 mb-4">
+            You are not authorized to see this page right now please try again
+          </h1>
+        ) }
+        {appointments?.length > 0 && (
           <div className="h-full">
             <div className="border-b-2 block md:flex">
               <div className="w-full p-4 sm:p-6 lg:p-8 bg-white shadow-md h-full">
                 <div className="flex justify-between mb-4">
                   <span className="text-xl font-semibold block">
-                    My Appoinments
+                    My appointments
                   </span>
                 </div>
                 <div className="pb-6">
@@ -303,47 +313,76 @@ function Profile() {
                         <tr>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            className="px-1 py-2 md:px-5 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
                             Doctor Name
                           </th>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            className="px-1 py-2 md:px-5 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
                             Date
                           </th>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            className="px-1 py-2 md:px-5 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
-                            Time
+                            Status
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-1 py-2 md:px-5 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Actions
                           </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {appoinments.map((appoinment) => (
-                          <tr key={appoinment._id}>
-                            <td className="px-6 py-4 whitespace-nowrap">
+                        {appointments.map((appointment) => (
+                          <tr key={appointment._id}>
+                            <td className="px-1 py-2 md:px-5 md:py-3 whitespace-nowrap">
                               <div className="flex items-center">
                                 <div
                                   className="text-sm font-medium text-gray-900
                              "
                                 >
-                                  {appoinment.doctorId.name}
+                                  {appointment.doctor.name}
                                 </div>
                               </div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
+                            <td className="px-1 py-2 md:px-5 md:py-3 whitespace-pre-wrap">
                               <div className="text-sm text-gray-900">
-                                {appoinment.date}
+                                {new Date(
+                                  appointment.appointmentDate
+                                ).toDateString()}
                               </div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm text-gray-900">
-                                {appoinment.time}
-                              </div>
+                            <td className="px-1 py-2 md:px-5 md:py-3 whitespace-nowrap">
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                {appointment.status}
+                              </span>
                             </td>
+                            <td className="px-1 py-2 md:px-5 md:py-3 whitespace-nowrap text-sm font-medium">
+                              <a
+                                href="#"
+                                className="text-indigo-600 hover:text-indigo-900"
+                                onClick={() => {
+                                  setShowModal(true);
+                                }}
+                              >
+                                View
+                              </a>
+                            </td>
+                            {showModal && (
+                              <td>
+                                <ProfileModal
+                                  appointment={appointment}
+                                  onClose={() => {
+                                    setShowModal(false);
+                                  }}
+                                />
+                              </td>
+                            )}
                           </tr>
                         ))}
                       </tbody>
@@ -355,6 +394,14 @@ function Profile() {
           </div>
         )}
       </div>
+      {currentUser?.role === "admin" && (
+        <button
+          className="text-xl font-bold text-white fixed bottom-4 right-4  rounded-md px-5 py-2 bg-blue-500"
+          onClick={() => navigate("/admin")}
+        >
+          Dashboard
+        </button>
+      )}
     </section>
   );
 }

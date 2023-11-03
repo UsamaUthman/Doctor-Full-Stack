@@ -8,7 +8,6 @@ const updatedUser = async (req, res) => {
   const id = req.params.id;
   const user = req.user;
   const { name, email, password, bloodType, phone, photo } = req.body;
-  console.log(user);
   try {
     if (user._id.toString() !== id.toString()) {
       return res.status(401).json({ message: "Not authorized" });
@@ -112,8 +111,50 @@ const getAllUsers = async (req, res) => {
     //   }
 
     const users = await UserSchema.find().select("-password");
+    const doctors = await DoctorSchema.find().select("-password");
 
-    return res.status(200).json(users);
+    return res.status(200).json({ users, doctors });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const createAppointment = async (req, res) => {
+  const { doctorId, ticketPrice } = req.body;
+  let {appointmentDate} = req.body;
+  // set appointment date to 1 hour later
+  appointmentDate = new Date();
+  const user = req.user;
+
+  try {
+    const newBooking = new BookingSchema({
+      doctor: doctorId,
+      user: user._id,
+      ticketPrice,
+      appointmentDate,
+    });
+
+    const savedBooking = await newBooking.save();
+
+    //seved booking in doctor and user
+    await DoctorSchema.findByIdAndUpdate(
+      doctorId,
+      {
+        $push: { appointments: savedBooking._id },
+      },
+      { new: true }
+    );
+
+    await UserSchema.findByIdAndUpdate(
+      user._id,
+      {
+        $push: { appointments: savedBooking._id },
+      },
+      { new: true }
+    );
+
+
+    return res.status(200).json(savedBooking);
   } catch (error) {
     console.log(error);
   }
@@ -123,6 +164,7 @@ const getMyAppointments = async (req, res) => {
   try {
     const bookings = await BookingSchema.find({ user: req.user._id });
 
+    console.log(bookings);
     const doctorIds = bookings.map((booking) => booking.doctor);
 
     const doctors = await DoctorSchema.find({ _id: { $in: doctorIds } }).select(
@@ -132,7 +174,7 @@ const getMyAppointments = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Your appointments",
-      data: doctors,
+      data: bookings
     });
   } catch (error) {
     console.log(error);
@@ -143,4 +185,4 @@ const getMyAppointments = async (req, res) => {
   }
 };
 
-export { updatedUser, deleteUser, getsingleUser, getAllUsers , getMyAppointments };
+export { updatedUser, deleteUser, getsingleUser, getAllUsers , getMyAppointments , createAppointment };

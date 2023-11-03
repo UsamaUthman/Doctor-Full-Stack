@@ -1,22 +1,82 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import ClipLoader from "react-spinners/ClipLoader";
+import {BiError} from "react-icons/bi"
 import DoctorsCard from '../../components/Doctors/DoctorsCard';
-import { doctors } from './../../assets/data/doctors';
 import Testimonial from '../../components/Testimonial/Testimonial';
+import { AuthContext } from '../../context/AuthContext';
 
 function Doctors() {
+  const {getAllDoctors , doctors , setDoctors} = useContext(AuthContext);
+  const [loading, setLoading] = useState(false); // false is the initial value
+  const [loadingSection, setLoadingSection] = useState(false); // false is the initial value
+  const [error, setError] = useState(false); // null is the initial value
   const [searchInput, setSearchInput] = useState('');
+  const [reviews, setReviews] = useState([]);
   
   // Filter doctors based on the search input
   const filteredDoctors = doctors.filter((doctor) =>
     doctor.name.toLowerCase().includes(searchInput.toLowerCase())
   );
 
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      try {
+        setLoading(true);
+        const response = await getAllDoctors();
+        if(response.status === 200){
+          setDoctors(response.data);
+          setLoading(false);
+        }else{
+          setLoading(false);
+          setError(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+      fetchAllUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchAllReviews = async () => {
+      try {
+        setLoadingSection(true);
+        const response = await axios.get('/api/v1/doctors/reviews/all' , {
+          validateStatus : false
+        });
+        if(response.status === 200){
+          setLoadingSection(false);
+          setReviews(response.data.data.reviews);
+        }else{
+          setLoadingSection(false);
+          setError(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchAllReviews();
+  }, []);
+
+  if(loading) return (
+    <div className="flex justify-center items-center h-[60vh]">
+      <ClipLoader color="#3D83FF" size={150} />
+    </div>
+  )
+
+  if(error) return (
+    <div className="flex justify-center items-center h-[60vh]">
+      <BiError className="text-5xl text-red-500" />
+    </div>
+  )
+
   return (
     <>
       {/* Create search bar */}
       <div className="container">
         <h1 className="text-2xl text-red-500 font-bold mt-[30px] lg:mt-[55px] text-center">
-          Api Booking is not working now
+          Api Booking is not working 100% right now
         </h1>
         <h1 className="text-2xl font-bold mt-[30px] lg:mt-[55px] text-center">Find a Doctor</h1>
         <div className="flex justify-center items-center mt-[30px] lg:mt-[55px]">
@@ -38,7 +98,7 @@ function Doctors() {
           ) : (
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-[30px] mt-[30px] lg:mt-[55px]'>
               {filteredDoctors.map((item) => (
-                <DoctorsCard key={item.id} item={item} />
+                <DoctorsCard key={item._id} item={item} />
               ))}
             </div>
           )}
@@ -56,7 +116,16 @@ function Doctors() {
               voluptas quas quod quibusdam natus doloribus.
             </p>
           </div>
-          <Testimonial />
+          <div className='flex justify-center items-center mt-[30px] lg:mt-[55px]'>
+            <div className='w-[50px] h-[2px] bg-[#3D83FF]'></div>
+          </div>
+
+          {loadingSection && (
+            <div className="flex justify-center items-center h-[60vh]">
+              <ClipLoader color="#3D83FF" size={150} />
+            </div>
+          )}
+          <Testimonial reviews={reviews} />
         </div>
       </section>
     </>

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import registerImg from "../assets/images/signup.gif";
 import avatar from "../assets/images/avatar-icon.png";
 import { Link  , useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
@@ -62,19 +61,11 @@ function Register() {
   return (
     <section className="px-2 xl:px-0">
       <div className="max-w-[1170px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
-          {/* img box */}
-          <div className="hidden lg:flex items-center justify-center">
-            <img
-              src={registerImg}
-              alt="register"
-              className="w-full rounded-l-lg"
-            />
-          </div>
+        <div className="grid grid-cols-1">
 
           {/* sign up form */}
-          <div className="flex items-center justify-center lg:px-20">
-            <div className="p-4 shadow-lg rounded-lg lg:w-full">
+          <div className="flex items-center justify-center md:px-32 lg:px-40">
+            <div className="p-4 shadow-lg rounded-lg w-full">
               <div className="flex flex-col items-center justify-between">
                 <h1 className="text-3xl font-semibold">Sign up</h1>
                 <p className="text__para mt-0 font-semibold">
@@ -133,7 +124,7 @@ function Register() {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex  md:gap-20">
                   <label className="text__para mt-0 font-semibold">
                     Are you a:
                     <select

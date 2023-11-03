@@ -45,6 +45,10 @@ function Contact() {
     );
 
     if (response.status === 200) {
+      setInputs({
+        message: "",
+        subject: "",
+      });
       toast.success("Message sent successfully");
     } else {
       toast.error("Something went wrong");
@@ -167,8 +171,6 @@ function Contact() {
           </form>
         </div>
       </div>
-
-      <ToastContainer />
     </section>
   );
 }

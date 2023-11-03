@@ -9,7 +9,7 @@ const router = express.Router(
 );
 
 
-router.route('/').get(getAllReviewsForDoctor).post(protect, acceptRoles('patient'), createReview);
+router.route('/:doctorId/review').get(getAllReviewsForDoctor).post(protect, acceptRoles('patient'), createReview);
 router.route('/all').get(getAllReviews);
 
 

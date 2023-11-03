@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
   },
   gender: { type: String, enum: ["male", "female"] },
   bloodType: { type: String , default: "" },
-  appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
+  appointments: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
   isVerified: {
     type: Boolean,
     default: false,

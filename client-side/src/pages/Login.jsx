@@ -31,16 +31,12 @@ function Login() {
         navigate("/");
       }else if(response.status === 401){
         toast.error("Please verify your email");
+      }else{
+        toast.error("Invalid credentials");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Invalid credentials", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-      });
+      toast.error("Server error");
     }
   };
 

@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [doctors, setDoctors] = useState([]); // [] is the initial value
   const [email, setEmail] = useState(localStorage.getItem("email-otp") || null);
 
   useEffect(() => {
@@ -93,7 +94,6 @@ export const AuthContextProvider = ({ children }) => {
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         const data = response.data;
         setCurrentUser(data);
@@ -105,9 +105,55 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const getAllUsersAndDoctors = async () => {
+    try {
+      const response = await axios.get(`/api/v1/users`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        validateStatus: false,
+      });
+
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getAllDoctors = async (query) => {
+    const response = await axios.get(`/api/v1/doctors`, {
+      // params : {
+      //   query : "mosab"
+      // },
+      validateStatus: false,
+    });
+    return response;
+  };
+
+
+  const getSingelDoctor = async (id) => {
+    const res = await axios.get(`/api/v1/doctors/doctor/${id}` ,{
+      validateStatus: false,
+    });
+    return res;
+  }
+
   return (
     <AuthContext.Provider
-      value={{ currentUser, login, logout, register, updateProfile  , email , setEmail}}
+      value={{
+        currentUser,
+        login,
+        logout,
+        register,
+        updateProfile,
+        email,
+        setEmail,
+        getAllUsersAndDoctors,
+        getAllDoctors,
+        doctors,
+        setDoctors,
+        getSingelDoctor
+      }}
     >
       {children}
     </AuthContext.Provider>

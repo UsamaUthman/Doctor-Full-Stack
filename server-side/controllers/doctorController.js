@@ -1,6 +1,5 @@
 import DoctorSchema from "../models/DoctorSchema.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { v2 as cloudinary } from "cloudinary";
 
 
@@ -81,13 +80,10 @@ const getsingleDoctor = async (req, res) => {
     const user = req.user;
   
     try {
-      // if (user._id.toString() !== id.toString()) {
-      //   return res.status(401).json({ message: "Not authorized" });
-      // }
   
       const foundUser = await DoctorSchema.findById(id).populate(
-        "reviews"
-      ).select("-password");
+        "reviews").populate("appointments").select("-password");
+
   
       return res.status(200).json(foundUser);
     } catch (error) {
@@ -112,9 +108,9 @@ const getAllDoctors = async (req, res) => {
               { name: { $regex: query, $options: "i" } },
               { specialization: { $regex: query, $options: "i" } },
             ],
-        })
+        }).select("-password");
     } else {
-        doctors = await DoctorSchema.find({ isApproved: "approved" });
+        doctors = await DoctorSchema.find({ isApproved: "approved" }).select("-password");
     }
     
       return res.status(200).json(doctors);

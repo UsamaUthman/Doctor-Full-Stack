@@ -22,8 +22,6 @@ function ForgetPassword() {
       },
     });
 
-    console.log(response);
-
     if (response.status === 200) {
       toast.success("OTP sent successfully please check your email");
       localStorage.setItem("email-otp", email);

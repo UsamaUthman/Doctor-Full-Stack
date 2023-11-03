@@ -9,7 +9,6 @@ function VerifiedEmail() {
   const otp = useParams().otp;
   const token = useParams().token;
 
-  console.log(currentUser)
   useEffect(() => {
     const fetchVerifiedEmail = async () => {
         const response = await axios.get(`/api/auth/verifyEmail/${token}/${otp}`, {
@@ -26,7 +25,7 @@ function VerifiedEmail() {
       }
   
     fetchVerifiedEmail();
-  }, [currentUser]);
+  }, []);
   
 
   if (loading) {

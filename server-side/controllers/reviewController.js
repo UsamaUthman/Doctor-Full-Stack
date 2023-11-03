@@ -49,7 +49,6 @@ const getAllReviews = async (req, res) => {
 
 // create review
 const createReview = async (req, res) => {
-
     if(!req.body.doctor) req.body.doctor = req.params.doctorId;
     if(!req.body.user) req.body.user = req.user._id;
 

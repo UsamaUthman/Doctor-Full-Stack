@@ -59,7 +59,6 @@ reviewSchema.statics.calcAverageRatings = async function (doctorId) {
     });
   }
 
-  console.log(stats);
 };
 
 reviewSchema.post("save", function () {
