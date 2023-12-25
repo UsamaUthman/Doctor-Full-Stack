@@ -71,6 +71,7 @@ The implementation of One-Time Password (OTP) functionality enhances security wh
 - 📧 **Email Verification**: Adding email verification for improved security and authentication. ✅
 - 💳 **Secure Payments**: 🚧: Integrating Stripe for secure payment processing during appointment booking. (Work in Progress) 
 - 📊 **Admin Dashboard**: 🚧: Empowering administrators with comprehensive control over users, doctors, and appointments. (Work in Progress)
+- **Clean code** : 🚧 
 
 <!-- Installation Instructions -->
 ## Installation
